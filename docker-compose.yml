@@ -1,7 +1,11 @@
 version: '3'
 services:        
     etm-logstash:        
-        image: elastest/etm-logstash:latest
+        image: elastest/etm-logstash:latestgbfhgfghfjhgfhfhjgjhgjhgjhgjh
+        54654654 jhjh 8968767567476457
+        ytrhyrhjgh 7867868796
+        ppopi--0:kuhjhgt
+        
         ports:
             - 37500:5000
             - 37501:5037
