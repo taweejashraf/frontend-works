@@ -25,7 +25,7 @@ services:
             max-size: "50m"
             max-file: "5"
     etm-logstash2:        
-        image: elastest/etm-logstash:latest        
+        image: elastest/etm-logstash2:latest        
         ports:
             - 37500:5000
             - 37501:5037
