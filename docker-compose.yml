@@ -1,0 +1,65 @@
+version: '3'
+services:        
+    etm-logstash:        
+        image: elastest/etm-logstash:latest
+        ports:
+            - 37500:5000
+            - 37501:5037
+            - 37502:5044
+            - 37503:5001
+            - 37504:5002
+            - 37505:5003
+        depends_on:
+            - etm-rabbitmq
+            - edm-elasticsearch
+        environment:
+            - ELASTICHOST=edm-elasticsearch
+            - RABBITHOST=etm-rabbitmq
+            - RABBITUSER=elastest-etm
+            - RABBITPASS=elastest-etm
+        networks:
+            - elastest
+        logging:
+          driver: "json-file"
+          options:
+            max-size: "50m"
+            max-file: "5"
+    etm-rabbitmq:
+        image: elastest/etm-rabbitmq:latest
+        hostname: my-rabbit
+        ports:
+            - 15672:15672
+            - 5672:5672
+            - 15671:15671
+            - 25672:25672
+            - 61613:61613
+        networks:
+            - elastest
+        logging:
+          driver: "json-file"
+          options:
+            max-size: "50m"
+            max-file: "5"
+
+    etm-filebeat:
+        image: elastest/etm-filebeat:latest
+        depends_on:
+            - etm-logstash
+        environment:
+            - ET_MON_LSBEATS_HOST=etm-logstash
+        networks:
+            - elastest
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+            - /var/lib/docker/containers:/var/lib/docker/containers
+        logging:
+          driver: "json-file"
+          options:
+            max-size: "50m"
+            max-file: "5"
+volumes:
+    beats-data:
+      driver: local
+networks:
+    elastest:
+      driver: bridge
