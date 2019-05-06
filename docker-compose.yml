@@ -1,4 +1,6 @@
 version: '3'
+labels:
+    test: -port
 services:        
     etm-logstash:        
         image: elastest/etm-logstash:latest        
